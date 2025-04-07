@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mbc.riri9.sang.MyinfoService"> 
+
+
+<resultMap type="com.mbc.riri9.sang.SangDTO" id="dto">
+	<result property="cnum" column="cnum" />
+	<result property="spname" column="spname" />
+	<result property="sprice" column="sprice" />
+	<result property="sdate" column="sdate" />
+</resultMap>
+
+<resultMap type="com.mbc.riri9.sang.MyinfoDTO" id="mydto">
+	<result property="cnum" column="cnum" />
+	<result property="name" column="name" />
+	<result property="phone" column="phone" />
+	<collection property="sdto" ofType="com.mbc.riri9.sang.SangDTO" resultMap="dto"></collection>
+</resultMap>
+
+<insert id="insertm">
+insert into myinfo0328 values(#{param1},#{param2},#{param3})
+</insert>
+
+<select id="outms" resultMap="mydto">
+select * from myinfo0328
+</select>
+
+<select id="mytot" resultMap="mydto">
+select  my.cnum,my.name,my.phone,sang.cnum,sang.spname,sang.sprice,to_char(sang.sdate,'yyyy-MM-dd') as sdate
+from myinfo0328 my,sang0328 sang
+where my.cnum = sang.cnum
+group by  my.cnum,my.name,my.phone,sang.cnum,sang.spname,sang.sprice,to_char(sang.sdate,'yyyy-MM-dd')
+</select>
+
+</mapper>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mbc.riri9.sang.SangService"> 
+<resultMap type="com.mbc.riri9.sang.SangDTO" id="dto">
+	<result property="cnum" column="cnum" />
+	<result property="spname" column="spname" />
+	<result property="sprice" column="sprice" />
+	<result property="sdate" column="sdate" />
+	
+</resultMap>
+
+<insert id="appendb"> 
+insert into sang0328 values(#{param1},#{param2},#{param3},#{param4})
+</insert>
+
+<select id="allout2" resultMap="dto">
+select cnum,spname,sprice,to_char(sdate,'yyyy-MM-dd')sdate from sang0328
+</select>
+
+<select id="spnametot" resultMap="dto">
+select spname,sum(sprice)as tot
+from sang0328
+group by spname
+</select>
+
+<select id="dayspnametotal" resultMap="dto">
+select to_char(sdate,'yyyy-MM-dd')sdate,spname, sum(sprice)as datetot
+from sang0328
+group by sdate,spname
+order by sdate desc
+</select>
+
+</mapper>
